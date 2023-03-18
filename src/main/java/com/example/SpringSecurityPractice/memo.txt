@@ -20,3 +20,5 @@ Exception 처리하는 기능, 리턴하는 ExceptionHandlingConfigurer 객체�
 
 <antMatchers()>
 ant라는 빌드 툴에서 사용되는 Path Pattern을 이용해 매치되는 URL을 표현
+
+* Spring Security 에서 관리하는 User 정보는 UserDetails로 관리한다. *
