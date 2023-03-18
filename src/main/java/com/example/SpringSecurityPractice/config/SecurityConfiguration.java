@@ -18,6 +18,8 @@ public class SecurityConfiguration { // 여기에 Spring Security에서 지원�
     // http 파라미터를 가지고 SecurityFilterChain을 리턴하는 형태의 메서드를 정의하면 http 보안 설정을 구성할 수 있다.
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
+                .headers().frameOptions().sameOrigin() // 동일 출처로 들어오는 request만 페이지 렌더링 허용
+                .and()
                 .csrf().disable() // CSRF 공격에 대한 스프링 시큐리티에 대한 설정 비활성화 -> 현재 로컬에서 진행하기 때문에 CSRF 공격에 대한 설정 필요하지 않다.
                 .formLogin() // 기본 적인 인증 방법을 폼 로그인 방식으로 지정
                 .loginPage("/auths/login-form") // 템플릿 프로젝트에 미리 만든 커스텀 로그인 페이지를 사용하도록 지정
@@ -46,28 +48,29 @@ public class SecurityConfiguration { // 여기에 Spring Security에서 지원�
     아래 방식은 사용자의 계정 정보를 설정하고 고정 시키는 방식이다.
     실제 서비스에서는 이렇게 사용하지 않고, 테스트 환경이나 데모 환경에서 유용하게 사용할 수 있는 방식이다.
      */
-    @Bean
-    public UserDetailsManager userDetailsManager(){
-        UserDetails user = // UserDetails는 인증된 사용자의 핵심정보를 포함한다.
-                User.withDefaultPasswordEncoder() // WithDefaultPasswordEncorder()는 디폴트 패스워드 인코더를 이용해 사용자 패스워드 암호화한다.
-                        .username("hong@never.com") // 사용자의 username설정
-                        .password("1111") // 사용자의 password 설정
-                        .roles("USER") // 사용자의 역할 설정
-                        .build();
-
-        // 관리자 권한을 가진 사용자 정보 추가
-        UserDetails admin =
-                User.withDefaultPasswordEncoder()
-                        .username("admin@gmail.com")
-                        .password("2222")
-                        .roles("ADMIN")
-                        .build();
-
-        /*
-        메모리상에서 UserDetails를 관리하므로 InMemoryUserDetailsManager라는 구현체 사용
-         */
-        return new InMemoryUserDetailsManager(user,admin);
-    }
+    // 데이터베이스에 저장된 User의 인증정보를 사용하기 위해 InMemoryUser를 등록하는 메서드는 제거
+//    @Bean
+//    public UserDetailsManager userDetailsManager(){
+//        UserDetails user = // UserDetails는 인증된 사용자의 핵심정보를 포함한다.
+//                User.withDefaultPasswordEncoder() // WithDefaultPasswordEncorder()는 디폴트 패스워드 인코더를 이용해 사용자 패스워드 암호화한다.
+//                        .username("hong@never.com") // 사용자의 username설정
+//                        .password("1111") // 사용자의 password 설정
+//                        .roles("USER") // 사용자의 역할 설정
+//                        .build();
+//
+//        // 관리자 권한을 가진 사용자 정보 추가
+//        UserDetails admin =
+//                User.withDefaultPasswordEncoder()
+//                        .username("admin@gmail.com")
+//                        .password("2222")
+//                        .roles("ADMIN")
+//                        .build();
+//
+//        /*
+//        메모리상에서 UserDetails를 관리하므로 InMemoryUserDetailsManager라는 구현체 사용
+//         */
+//        return new InMemoryUserDetailsManager(user,admin);
+//    }
 
     @Bean
     public PasswordEncoder passwordEncoder(){
