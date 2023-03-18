@@ -1,7 +1,7 @@
 package com.example.SpringSecurityPractice.advice;
 
 import com.example.SpringSecurityPractice.exception.BusinessLogicException;
-import com.example.SpringSecurityPractice.response.ErrorResponse;
+import com.example.SpringSecurityPractice.resposne.ErrorResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
