@@ -8,3 +8,6 @@ Spring Security에서 제공하는 사용자의 핵심 정보를 포함한 UserD
 Deprecated가 붙어있는데 이거는 해당 API가 이후 버전에서는 더 이상 사용되지 않고 제거될 수 있다는 의미다.
 하지만 WithDefaultPasswordEncorder()에서 Deprecated는 Production환경에서 인증을 위한 사용자 정보를 고정해서 사용하지 말라는 경고의 의미이다.
 따라서 WithDefaultPasswordEncorder()는 반드시 테스트 환경이나 데모 환경에서만 사용해야 한다.
+
+<HttpSecurity>
+Http 보안 설정을 구성하기 위한 핵심 클래스
