@@ -22,6 +22,10 @@ public class SecurityConfiguration { // 여기에 Spring Security에서 지원�
                 .loginProcessingUrl("/process_login") // 로그인 인증 요청을 수행할 요청 URL 지정 -> login.html에서 form 태그의 action 속성에 지정한 URL과 동일
                 .failureUrl("/auths/login-form?error") // 로그인 인증에 실패할 경우 리다이렉트할 화면 지정
                 .and() // 스프링 시큐리티 보안 설정을 메서드 체인 형태로 구성
+                .logout() // 로그아웃 설정을 위한 LogoutConfigurer 리턴
+                .logoutUrl("/logout") // 사용자가 로그아웃을 수행하기 위한 request URL 지정 이 url은 header.html의 로그아웃 메뉴에 지정한 href="/logout"과 동일해야 한다.
+                .logoutSuccessUrl("/") // 로그아웃 성공적으로 수행 후 리다이렉트할 url
+                .and()
                 .exceptionHandling().accessDeniedPage("/auths/access-denied") // 권한이 없는 사용자가 특정 request url에 접근할 경우 발생하는 에러 처리하는 페이지 설정
                 .and()
                 .authorizeHttpRequests(authorize -> authorize // requestURL에 대한 접근 권한을 부여한다.
