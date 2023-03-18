@@ -22,10 +22,17 @@ public class SecurityConfiguration { // 여기에 Spring Security에서 지원�
                 .loginProcessingUrl("/process_login") // 로그인 인증 요청을 수행할 요청 URL 지정 -> login.html에서 form 태그의 action 속성에 지정한 URL과 동일
                 .failureUrl("/auths/login-form?error") // 로그인 인증에 실패할 경우 리다이렉트할 화면 지정
                 .and() // 스프링 시큐리티 보안 설정을 메서드 체인 형태로 구성
-                .authorizeHttpRequests() // 클라이언트의 요청일 들어오면 접근 권한을 확인하기 위해 정의
-                // 클라이언트의 모든 요청에 대한 접근 허용
-                .anyRequest()
-                .permitAll();
+                .exceptionHandling().accessDeniedPage("/auths/access-denied") // 권한이 없는 사용자가 특정 request url에 접근할 경우 발생하는 에러 처리하는 페이지 설정
+                .and()
+                .authorizeHttpRequests(authorize -> authorize // requestURL에 대한 접근 권한을 부여한다.
+                        .antMatchers("/orders/**").hasRole("ADMIN") // ADMIN인 사용자만 /order 로 시작하는 모든 url에 접근 가능
+                        .antMatchers("/members/my-page").hasRole("USER") // USER 사용자만 /members 로 시작하는 모든 url에 접근 가능
+                        .antMatchers("/**").permitAll() // 위에서 지정한 url 이외의 나머지 url은 모두 접근 가능 -> 순서 중요하다. permintAll이 최상단에 있다면 모든 접근이 허용된다.
+                );
+//                .authorizeHttpRequests() // 클라이언트의 요청일 들어오면 접근 권한을 확인하기 위해 정의
+//                // 클라이언트의 모든 요청에 대한 접근 허용
+//                .anyRequest()
+//                .permitAll();
 
         return http.build();
     }

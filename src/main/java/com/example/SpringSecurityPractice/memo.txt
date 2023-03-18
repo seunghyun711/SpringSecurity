@@ -11,3 +11,12 @@ Deprecated가 붙어있는데 이거는 해당 API가 이후 버전에서는 더
 
 <HttpSecurity>
 Http 보안 설정을 구성하기 위한 핵심 클래스
+
+<exceptionHandling()>
+Exception 처리하는 기능, 리턴하는 ExceptionHandlingConfigurer 객체를 통해 구체적인 Exception 처리할 수 있다.
+
+<accessDeniedPage()>
+403 에러 발생 시 파라미터로 지정한 URL로 리다이렉 되도록 한다.
+
+<antMatchers()>
+ant라는 빌드 툴에서 사용되는 Path Pattern을 이용해 매치되는 URL을 표현
