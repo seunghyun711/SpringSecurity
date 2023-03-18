@@ -41,18 +41,26 @@ public class SecurityConfiguration { // 여기에 Spring Security에서 지원�
     실제 서비스에서는 이렇게 사용하지 않고, 테스트 환경이나 데모 환경에서 유용하게 사용할 수 있는 방식이다.
      */
     @Bean
-    public UserDetailsManager userDetailsManager(){
-        UserDetails userDetails = // UserDetails는 인증된 사용자의 핵심정보를 포함한다.
+    public InMemoryUserDetailsManager userDetailsManager(){
+        UserDetails user = // UserDetails는 인증된 사용자의 핵심정보를 포함한다.
                 User.withDefaultPasswordEncoder() // WithDefaultPasswordEncorder()는 디폴트 패스워드 인코더를 이용해 사용자 패스워드 암호화한다.
                         .username("hong@never.com") // 사용자의 username설정
                         .password("1111") // 사용자의 password 설정
                         .roles("USER") // 사용자의 역할 설정
                         .build();
 
+        // 관리자 권한을 가진 사용자 정보 추가
+        UserDetails admin =
+                User.withDefaultPasswordEncoder()
+                        .username("admin@gmail.com")
+                        .password("2222")
+                        .roles("ADMIN")
+                        .build();
+
         /*
         메모리상에서 UserDetails를 관리하므로 InMemoryUserDetailsManager라는 구현체 사용
          */
-        return new InMemoryUserDetailsManager(userDetails);
+        return new InMemoryUserDetailsManager(user,admin);
     }
 
 }
