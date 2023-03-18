@@ -5,6 +5,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
@@ -45,7 +47,7 @@ public class SecurityConfiguration { // 여기에 Spring Security에서 지원�
     실제 서비스에서는 이렇게 사용하지 않고, 테스트 환경이나 데모 환경에서 유용하게 사용할 수 있는 방식이다.
      */
     @Bean
-    public InMemoryUserDetailsManager userDetailsManager(){
+    public UserDetailsManager userDetailsManager(){
         UserDetails user = // UserDetails는 인증된 사용자의 핵심정보를 포함한다.
                 User.withDefaultPasswordEncoder() // WithDefaultPasswordEncorder()는 디폴트 패스워드 인코더를 이용해 사용자 패스워드 암호화한다.
                         .username("hong@never.com") // 사용자의 username설정
@@ -65,6 +67,12 @@ public class SecurityConfiguration { // 여기에 Spring Security에서 지원�
         메모리상에서 UserDetails를 관리하므로 InMemoryUserDetailsManager라는 구현체 사용
          */
         return new InMemoryUserDetailsManager(user,admin);
+    }
+
+    @Bean
+    public PasswordEncoder passwordEncoder(){
+        // DelegatingPasswordEncorder는 PasswordEncoder의 구현 객체르 ㄹ생성한다.
+        return PasswordEncoderFactories.createDelegatingPasswordEncoder();
     }
 
 }
