@@ -3,9 +3,11 @@ package com.example.SpringSecurityPractice.auth.utils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 public class HelloAuthorityUtils {
@@ -44,6 +46,14 @@ public class HelloAuthorityUtils {
             return ADMIN_ROLES_STRING;
         }
         return USER_ROLES_STRING;
+    }
+
+    // 1 db에 저장된 Role을 기반으로 권한 정보 생성
+    public List<GrantedAuthority> createAuthorities(List<String> roles) {
+        List<GrantedAuthority> authorities = roles.stream()
+                .map(role -> new SimpleGrantedAuthority("ROLE_" + role)) // 2
+                .collect(Collectors.toList());
+        return authorities;
     }
 
 }
