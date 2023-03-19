@@ -10,10 +10,11 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Component;
 
 import java.util.Collection;
 import java.util.Optional;
-
+@Component
 public class HelloUserDetailsServiceV1 implements UserDetailsService{// Custom UserDetailsService 구현 위해 UserDetailsService인터페이스를 구현한다.
     private final MemberRepository memberRepository;
     private final HelloAuthorityUtils authorityUtils;
