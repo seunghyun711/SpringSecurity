@@ -51,6 +51,20 @@ public class JwtTokenizer {
                 .compact();
     }
 
+    // JWT 검증 기능 구현
+    /*
+    JWT는 JWT에 포함된 Signature를 검증하여 JWT의 위/변조 여부를 확인할 수 있다.
+    jjwt에서는 JWT를 생성할 때 서명에 사용된 Secret Key를 내부적으로 Signature를 검증하여 검증에 성공하면 JWT를 파싱해서 Claims를 얻을 수 있다.
+     */
+    public void verifySignature(String jws, String base64EncodedSecretKey) {
+        Key key = getKeyFromBase64EncodedKey(base64EncodedSecretKey);
+
+        Jwts.parserBuilder()
+                .setSigningKey(key) // 서명에 사용된 SecretKey를 설정
+                .build()
+                .parseClaimsJws(jws); // JWT를 바싱하여 Claims를 얻는다.
+    }
+
     // JWT의 서명에 사용할 Secret Key를 생성한다.
     private Key getKeyFromBase64EncodedKey(String base64EncodedSecretKey) {
         byte[] bytes = Decoders.BASE64.decode(base64EncodedSecretKey); // Base64 형식으로 인코딩된 SecretKey를 디코딩하여 byte array를 반환
